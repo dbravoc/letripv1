@@ -1,38 +1,29 @@
-
 import './App.css'
-import LogoTech from './components/LogoTech';
-import Nav from './components/Nav';
-import Rrss from './components/Rrss';
-import FotoEquipo from './components/FotoEquipo';
-import Que from './components/Que';
-import Servicios from './components/Servicios';
-
-
+import Inicio from './components/Inicio';
+import Materias from './components/Materias';
+import Formulario from './components/Formulario';
+import Footer from './components/Footer';
 
 
 
 const App = () => {
   return (
     <>
-      <div className='Header'>
-        <LogoTech />
-        <Nav />
-      </div>
-      <div className='FotoEquipo'>
-        <FotoEquipo />
-      </div>
-      <div className='Que'>
-        <Que />
-      </div>
-      <div className='Servicios'>
-        <Servicios />
-      </div>
-      <div className='Footer'>
-        <Rrss />
+      <div className="mx-auto max-w-2xl sm:px-6 lg:max-w-7xl lg:px-8">
+        <div className="flex justify-between flex-wrap">
+          <div className="w-full lg:w-3/5">
+            <Inicio />
+          </div>
+          <div className="w-full lg:w-2/5 px-6">
+            <Formulario />
+          </div>
+        </div>
+        <Materias />
+        <Footer />
       </div>
     </>
   );
 };
 
-
 export default App;
+
