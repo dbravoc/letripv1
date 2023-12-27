@@ -1,25 +1,39 @@
 const express = require('express');
-const axios = require('axios');
+const bodyParser = require('body-parser');
+const { Configuration, OpenAIApi } = require('openai');
+
 const app = express();
+const port = 3000;
 
-app.use(express.json());
+// Configurar el body-parser para manejar las solicitudes POST
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-app.post('/chat', async (req, res) => {
-    try {
-        const response = await axios.post('https://api.openai.com/v1/engines/gpt-3.5-turbo/completions', {
-            prompt: req.body.message, // El mensaje del usuario
-            max_tokens: 150
-        }, {
-            headers: {
-                'Authorization': `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`
-            }
-        });
-        res.json({ reply: response.data.choices[0].text });
-    } catch (error) {
-        res.status(500).send(error.toString());
-    }
+// Configurar OpenAI
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY, // Asegúrate de definir tu clave API en las variables de entorno
+});
+const openai = new OpenAIApi(configuration);
+
+// Endpoint para procesar mensajes
+app.post('/message', async (req, res) => {
+  try {
+    const response = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo ", // O el modelo que desees usar
+      messages: [{
+        role: "user",
+        content: req.body.message
+      }]
+    });
+
+    res.send({ reply: response.data.choices[0].message.content });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error al procesar el mensaje");
+  }
 });
 
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Servidor ejecutándose en el puerto ${PORT}`));
+// Iniciar el servidor
+app.listen(port, () => {
+  console.log(`Servidor escuchando en http://localhost:${port}`);
+});

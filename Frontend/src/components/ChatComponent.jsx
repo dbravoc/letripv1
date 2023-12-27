@@ -1,37 +1,40 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 export default function ChatComponent() {
-  const [messages, setMessages] = useState([]);
-  const [messageInput, setMessageInput] = useState('');
-  const chatContainerRef = useRef(null);
+    const [messages, setMessages] = useState([]);
+    const [messageInput, setMessageInput] = useState('');
+    const chatContainerRef = useRef(null);
 
-  const handleSendMessage = async (e) => {
-    e.preventDefault();
-    if (messageInput.trim() === '') return;
-    
-    // Mensaje del usuario añadido al chat
-    const userMessage = { sender: 'user', text: messageInput };
-    setMessages([userMessage, ...messages]);
+    const handleSendMessage = async (e) => {
+      e.preventDefault();
+      if (messageInput.trim() === '') return;
+  
+      const userMessage = { sender: 'user', text: messageInput };
+      setMessages([userMessage, ...messages]);
+  
+      try {
+          const response = await fetch('http://localhost:3000/chat', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                  messages: [
+                      { "role": "system", "content": "You are a helpful assistant." },
+                      { "role": "user", "content": messageInput }
+                  ]
+              }),
+          });
+  
+          const data = await response.json();
+          const botMessage = { sender: 'bot', text: data.choices[0].message.content };
+          setMessages(messages => [botMessage, ...messages]);
+      } catch (error) {
+          console.error('Error al enviar el mensaje:', error);
+      }
+  
+      setMessageInput('');
+  };
 
-    try {
-    // Enviar la pregunta al servidor y obtener la respuesta
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: messageInput }),
-      });
-      const data = await response.json();
-
-       // Mensaje del bot añadido al chat
-       const botMessage = { sender: 'bot', text: data.reply };
-       setMessages(messages => [botMessage, ...messages]);
-     } catch (error) {
-       console.error('Error al enviar el mensaje:', error);
-       // Aquí puedes manejar el error, por ejemplo, mostrando un mensaje en el chat
-     }
- 
-     setMessageInput('');
-   };
+  // --------------------------- hacia arriba funciones
  
    useEffect(() => {
      if (chatContainerRef.current) {
@@ -41,34 +44,35 @@ export default function ChatComponent() {
    }, [messages]);
  
 
-  return (
+   return (
     <div ref={chatContainerRef} className="flex min-h-full flex-1 flex-col justify-center py-1 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md bg-white shadow rounded-md p-4 overflow-y-auto max-h-96">
-        <div className="flex flex-col-reverse space-y-reverse space-y-2">
-          {messages.map((msg, index) => (
-            <div key={index} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <span className={`rounded-md px-3 py-2 ${msg.sender === 'user' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-900'}`}>
-                {msg.text}
-              </span>
+        <div className="sm:mx-auto sm:w-full sm:max-w-md bg-white shadow rounded-md p-4 overflow-y-auto max-h-96">
+            <div className="flex flex-col-reverse space-y-reverse space-y-2">
+                {messages.map((msg, index) => (
+                    <div key={index} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                        <span className={`rounded-md px-3 py-2 ${msg.sender === 'user' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-900'}`}>
+                            {msg.text}
+                        </span>
+                    </div>
+                ))}
             </div>
-          ))}
+            <form onSubmit={handleSendMessage} className="mt-4 flex space-x-3">
+                <input
+                    type="text"
+                    value={messageInput}
+                    onChange={(e) => setMessageInput(e.target.value)}
+                    placeholder="Conversa por aquí"
+                    className="flex-1 rounded-md border-2 border-gray-300 p-2 focus:border-indigo-500"
+                />
+                <button
+                    type="submit"
+                    className="rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-500"
+                >
+                    Enviar
+                </button>
+            </form>
         </div>
-        <form onSubmit={handleSendMessage} className="mt-4 flex space-x-3">
-          <input
-            type="text"
-            value={messageInput}
-            onChange={(e) => setMessageInput(e.target.value)}
-            placeholder="Conversa por aquí"
-            className="flex-1 rounded-md border-2 border-gray-300 p-2 focus:border-indigo-500"
-          />
-          <button
-            type="submit"
-            className="rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-500"
-          >
-            Enviar
-          </button>
-        </form>
-      </div>
     </div>
-  );
+);
+
 }
