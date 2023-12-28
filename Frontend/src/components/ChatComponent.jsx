@@ -13,29 +13,26 @@ export default function ChatComponent() {
       setMessages([userMessage, ...messages]);
   
       try {
-          const response = await fetch('http://localhost:3000/chat', {
+          const response = await fetch('http://localhost:3000/message', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                  messages: [
-                      { "role": "system", "content": "You are a helpful assistant." },
-                      { "role": "user", "content": messageInput }
-                  ]
-              }),
+              body: JSON.stringify({ message: messageInput }),
           });
   
           const data = await response.json();
-          const botMessage = { sender: 'bot', text: data.choices[0].message.content };
+          // Asegúrate de que esta línea refleje cómo tu backend estructura la respuesta
+          const botMessage = { sender: 'bot', text: data.reply }; 
           setMessages(messages => [botMessage, ...messages]);
       } catch (error) {
           console.error('Error al enviar el mensaje:', error);
       }
   
       setMessageInput('');
-  };
+    };
 
-  // --------------------------- hacia arriba funciones
- 
+    // ...
+
+    // El resto del componente permanece igual
    useEffect(() => {
      if (chatContainerRef.current) {
        const chatContainer = chatContainerRef.current;
@@ -74,5 +71,4 @@ export default function ChatComponent() {
         </div>
     </div>
 );
-
 }
