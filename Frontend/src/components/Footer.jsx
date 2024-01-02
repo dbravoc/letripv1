@@ -9,7 +9,7 @@ export default function Footer() {
             <a href="">
             <img
               className="max-h-20 w-auto object-contain"
-              src="src/assets/img/m.jpeg"
+              src=""
               alt="Transistor"
               width={200}
               height={48}
@@ -18,7 +18,7 @@ export default function Footer() {
             <a href="">
             <img
               className="max-h-20 w-auto object-contain"
-              src="src/assets/img/Logo LwT.png"
+              src=""
               alt="Reform"
               width={300}
               height={300}

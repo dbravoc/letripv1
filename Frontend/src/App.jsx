@@ -1,29 +1,33 @@
-import './App.css'
+import './App.css';
 import Inicio from './components/Inicio';
-import Materias from './components/Materias';
-import Formulario from './components/Formulario';
-import Footer from './components/Footer';
-
-
+import Experiencias from './components/Experiencias';
+import Tarjeta from './pages/Tarjeta';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Frases from './components/Frases';
 
 const App = () => {
   return (
     <>
-      <div className="mx-auto max-w-2xl sm:px-6 lg:max-w-7xl lg:px-8">
-        <div className="flex justify-between flex-wrap">
-          <div className="w-full lg:w-3/5">
+      <Router>
+        <Routes>
+          <Route path="/" element={<>
+            <div className="bg-black mx-auto w-full sm:px-6  px-8">
+              <div className="flex flex-col justify-between flex-wrap"> <Inicio /></div>
+              <div className='pt-36 pb-12'><Frases /></div>
+              <Experiencias />
+            </div>
+          </>} />
+          
+          <Route path="/tarjeta/:id" element={ <>
             <Inicio />
-          </div>
-          <div className="w-full lg:w-2/5 px-6">
-            <Formulario />
-          </div>
-        </div>
-        <Materias />
-        <Footer />
-      </div>
+            <div className='pt-36 '><Tarjeta /></div>
+            </>
+          } 
+            />
+        </Routes>
+      </Router>
     </>
   );
 };
 
 export default App;
-
