@@ -1,42 +1,40 @@
-require('dotenv').config();
 const express = require('express');
-const bodyParser = require('body-parser');
-const openai = require('openai');
-const cors = require('cors');
-const axios = require('axios');
-
-openai.apiKey = process.env.OPENAI_API_KEY;
-
+const mercadopago = require('@mercadopago/sdk-js');
 const app = express();
-app.use(bodyParser.json());
-app.use(cors()); // Esto habilita CORS para todas las rutas
 
+app.use(express.json());
 
-app.post('/message', async (req, res) => {
-  try {
-    const userMessage = req.body.message;
-
-    const response = await axios.post('https://api.openai.com/v1/chat/completions', {
-      model: "gpt-3.5-turbo-1106",
-      messages: [{ role: "user", content: userMessage }]
-    }, 
-      {
-      headers: {
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-        'Content-Type': 'application/json'
-      }
-    });
-    const reply = response.data.choices[0].message.content;
-    res.json({ reply: reply });
-  } 
-  
-  catch (error) {
-    console.error('Error en la API de OpenAI:', error);
-    res.status(500).json({ error: 'Error interno del servidor' });
-  }
+mercadopago.configure({
+  access_token: "YOUR_ACCESS_TOKEN"
 });
 
-const PORT = process.env.PORT || 3000;
+app.post('/process_payment', (req, res) => {
+  let payment_data = {
+    transaction_amount: Number(req.body.transaction_amount),
+    token: req.body.token,
+    description: req.body.description,
+    installments: Number(req.body.installments),
+    payment_method_id: req.body.payment_method_id,
+    issuer_id: req.body.issuer_id,
+    payer: {
+      email: req.body.payer.email,
+      identification: {
+        type: req.body.payer.identification.type,
+        number: req.body.payer.identification.number
+      }
+    }
+  };
+
+  mercadopago.payment.save(payment_data)
+    .then(response => {
+      res.status(201).json(response.body);
+    })
+    .catch(error => {
+      res.status(500).send(error);
+    });
+});
+
+const PORT = 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor ejecutándose en el puerto ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Link } from 'react-router-dom';
+
 
 const navigation = [
   { name: 'Ciclismo', href: '#', current: true },
@@ -20,16 +22,16 @@ export default function Inicio() {
     <div className="bg-black">
       <header className="absolute inset-x-0 top-0 z-50">
         <nav className="flex items-center justify-between p-6" aria-label="Global">
-          <div className="flex lg:flex-1">
-            <a href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
-              <img
-                className="h-20 w-auto"
-                src='src/assets/img/letrip logo blanco.png'
-                alt=""
-              />
-            </a>
-          </div>
+        <div className="flex lg:flex-1">
+          <Link to="/">
+            <img
+              className="h-20 w-auto"
+              src="/img/letrip logo blanco.png"
+              alt="Logo de LeTrip"
+            />
+          </Link>
+        </div>
+
           <div className="flex lg:hidden">
             <button
               type="button"
