@@ -57,6 +57,7 @@ const FormularioPago = ({ experienceCard }) => {
           <input type="text" idp="form-checkout__identificationNumber" className="mb-4 p-2 border border-gray-300 rounded-md" placeholder="Número identificación" />
           <input type="email" idp="form-checkout__cardholderEmail" className="mb-4 p-2 border border-gray-300 rounded-md" placeholder="Email" />
           <button type="submit" idp="form-checkout__submit" className="mb-4 bg-gray-700 text-white py-2 px-4 rounded-md hover:bg-gray-500 focus:bg-white focus:text-gray-700"><strong>Pagar</strong></button>
+          <a className='text-gray-50 mb-4 flex justify-center bg-green-700 py-2 px-4 rounded-md hover:bg-gray-500 focus:bg-white focus:text-gray-700' href="https://mpago.la/23vUZtJ">Pagar fácil</a>
           <progress value="0" className="progress-bar w-full"></progress>
         </div>
       </div>

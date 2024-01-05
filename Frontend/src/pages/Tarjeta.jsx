@@ -119,7 +119,7 @@ const Tarjeta = ({ experienceCard }) => {
                   <span className="text-5xl font-bold tracking-tight text-gray-50">$1500</span>
                   <span className="text-sm font-semibold leading-6 tracking-wide text-gray-50">USD</span>
                 </p>
-                <Link to={`/formulariopago/${selectedExperience.experience_id}`}  className="mt-10 block w-full rounded-md bg-gray-50 px-3 py-2 text-center text-xl font-semibold text-gray-900 shadow-sm hover:bg-gray-700 hover:text-gray-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                <Link to={`https://mpago.la/23vUZtJ`}  className="mt-10 block w-full rounded-md bg-gray-50 px-3 py-2 text-center text-xl font-semibold text-gray-900 shadow-sm hover:bg-gray-700 hover:text-gray-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                   <strong>Reservar</strong>
                 </Link>
                 <p className="mt-6 text-xs leading-5 text-gray-300">

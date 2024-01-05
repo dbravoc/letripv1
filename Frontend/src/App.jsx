@@ -185,16 +185,6 @@ const App = () => {
 
             </>
           } />
-
-        <Route path="/formulariopago/:id" element={
-        <>
-        <div className="bg-black mx-auto w-full sm:px-6  px-8">
-          <div className="flex flex-col justify-between flex-wrap"><Inicio /></div>
-          <div className='pt-36 '><FormularioPago experienceCard={experienceCard} /></div>
-          </div>
-         
-        </>
-        } />
         </Routes>
         
       </Router>
