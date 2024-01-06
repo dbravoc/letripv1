@@ -1,5 +1,6 @@
 {
-  "name": "laboraljuridico",
+  
+  "name": "letripv1",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,6 +10,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+  "homepage": "https://dbravoc.github.io/letripv1",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-brands-svg-icons": "^6.5.1",
